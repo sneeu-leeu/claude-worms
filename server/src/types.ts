@@ -5,7 +5,7 @@ export interface WormInstance {
   sessionId: string;
   cwd: string;
   startedAt: number;
-  tty: string;
+  tty?: string;
   currentTask: string;
   lastActivity: number;
   health: number; // 0-100
@@ -29,6 +29,7 @@ export interface SessionFile {
   startedAt: number;
   kind: string;
   entrypoint: string;
+  tty?: string;
 }
 
 export interface SocketEvents {

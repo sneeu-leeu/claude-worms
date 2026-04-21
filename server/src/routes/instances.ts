@@ -28,7 +28,8 @@ export function createInstanceRoutes(sessionWatcher: SessionWatcher): Router {
   });
 
   router.get('/api/instances/:pid', (req: Request, res: Response) => {
-    const pid = parseInt(req.params.pid, 10);
+    const pidParam = Array.isArray(req.params.pid) ? req.params.pid[0] : req.params.pid;
+    const pid = parseInt(pidParam, 10);
     const instance = sessionWatcher.getInstance(pid);
 
     if (!instance) {
@@ -41,7 +42,8 @@ export function createInstanceRoutes(sessionWatcher: SessionWatcher): Router {
 
   router.delete('/api/instances/:pid', (req: Request, res: Response) => {
     try {
-      const pid = parseInt(req.params.pid, 10);
+      const pidParam = Array.isArray(req.params.pid) ? req.params.pid[0] : req.params.pid;
+      const pid = parseInt(pidParam, 10);
       const { signal = 'SIGTERM' } = req.body;
 
       const instance = sessionWatcher.getInstance(pid);
@@ -71,11 +73,17 @@ export function createInstanceRoutes(sessionWatcher: SessionWatcher): Router {
 
   router.post('/api/instances/:pid/focus', async (req: Request, res: Response) => {
     try {
-      const pid = parseInt(req.params.pid, 10);
+      const pidParam = Array.isArray(req.params.pid) ? req.params.pid[0] : req.params.pid;
+      const pid = parseInt(pidParam, 10);
       const instance = sessionWatcher.getInstance(pid);
 
       if (!instance) {
         res.status(404).json({ error: 'Instance not found' });
+        return;
+      }
+
+      if (!instance.tty) {
+        res.status(400).json({ error: 'Instance has no TTY' });
         return;
       }
 

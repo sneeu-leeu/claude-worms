@@ -1,8 +1,8 @@
 import chokidar from 'chokidar';
 import { config } from '../config.js';
 import { TranscriptParser } from '../discovery/TranscriptParser.js';
-import { InstanceDiscovery } from '../discovery/InstanceDiscovery.js';
 import type { WormInstance } from '../types.js';
+import type { FSWatcher } from 'chokidar';
 
 interface TranscriptState {
   path: string;
@@ -10,7 +10,7 @@ interface TranscriptState {
 }
 
 export class TranscriptWatcher {
-  private watcher: chokidar.FSWatcher | null = null;
+  private watcher: FSWatcher | null = null;
   private transcripts = new Map<string, TranscriptState>();
   private onActivity: ((instance: Partial<WormInstance>) => void) | null = null;
   private sessionWatcher: any = null;
@@ -28,7 +28,7 @@ export class TranscriptWatcher {
       persistent: true,
     });
 
-    this.watcher.on('change', (filePath) => {
+    this.watcher.on('change', (filePath: string) => {
       this.handleTranscriptChange(filePath, getInstances);
     });
   }

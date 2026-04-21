@@ -30,7 +30,7 @@ export class InstanceDiscovery {
     const transcript = TranscriptParser.parseJsonl(jsonlPath);
 
     // Get iTerm session name (current task)
-    const currentTask = itermNames.get(sessionFile.tty) || 'Unknown Task';
+    const currentTask = sessionFile.tty ? (itermNames.get(sessionFile.tty) || 'Unknown Task') : 'Unknown Task';
 
     // Calculate health based on last activity
     const lastActivity = transcript.lastActivityTime;

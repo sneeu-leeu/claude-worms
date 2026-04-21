@@ -5,9 +5,10 @@ import { config } from '../config.js';
 import { InstanceDiscovery } from '../discovery/InstanceDiscovery.js';
 import { ItermBridge } from '../discovery/ItermBridge.js';
 import type { WormInstance, SessionFile } from '../types.js';
+import type { FSWatcher } from 'chokidar';
 
 export class SessionWatcher {
-  private watcher: chokidar.FSWatcher | null = null;
+  private watcher: FSWatcher | null = null;
   private instances = new Map<string, WormInstance>();
   private onSpawned: ((instance: WormInstance) => void) | null = null;
   private onDied: ((pid: number, sessionId: string) => void) | null = null;
@@ -26,8 +27,8 @@ export class SessionWatcher {
       persistent: true,
     });
 
-    this.watcher.on('add', (filePath) => this.handleSessionAdded(filePath));
-    this.watcher.on('unlink', (filePath) => this.handleSessionRemoved(filePath));
+    this.watcher.on('add', (filePath: string) => this.handleSessionAdded(filePath));
+    this.watcher.on('unlink', (filePath: string) => this.handleSessionRemoved(filePath));
 
     // Initial scan of existing sessions
     await this.scanExistingSessions();

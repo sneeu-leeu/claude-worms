@@ -83,7 +83,7 @@ setInterval(async () => {
     const instances = sessionWatcher.getAllInstances();
 
     for (const instance of instances) {
-      const newTask = itermNames.get(instance.tty) || instance.currentTask;
+      const newTask = instance.tty ? (itermNames.get(instance.tty) || instance.currentTask) : instance.currentTask;
       if (newTask !== instance.currentTask) {
         socketServer.emit('worm:activity', {
           pid: instance.pid,
