@@ -56,71 +56,79 @@ export function WormCard({ worm }: WormCardProps) {
     }
   };
 
+  const healthColor = worm.health > 50 ? 'retro-green' : worm.health > 25 ? 'retro-yellow' : 'retro-red';
+
   return (
     <div
-      className={`p-4 mb-2 border rounded cursor-pointer transition ${
-        selectedWormPid === worm.pid
-          ? 'border-blue-500 bg-blue-50'
-          : 'border-gray-300 bg-white hover:bg-gray-50'
+      className={`p-3 mb-2 border-2 cursor-pointer transition pixel-border ${
+        selectedWormPid === worm.pid ? 'border-yellow-400 bg-gray-800' : 'border-green-600 bg-gray-900 hover:bg-gray-800'
       }`}
       onClick={() => selectWorm(worm.pid)}
     >
       <div className="flex justify-between items-start mb-2">
         <div>
-          <h3 className="font-bold text-sm">
-            {worm.cwd.split('/').pop() || 'claude'}
+          <h3 className="font-bold text-xs retro-green pixel-text">
+            {worm.cwd.split('/').pop() || 'CLAUDE'}
           </h3>
-          <p className="text-xs text-gray-600">{worm.sessionId.slice(0, 8)}</p>
+          <p className="text-xs text-gray-500">{worm.sessionId.slice(0, 8)}</p>
         </div>
-        <span className={`px-2 py-1 rounded text-xs text-white font-semibold ${statusColor}`}>
-          {worm.status}
+        <span
+          className={`px-2 py-1 text-xs font-semibold pixel-text border border-current ${
+            worm.status === 'active'
+              ? 'retro-green'
+              : worm.status === 'idle'
+                ? 'retro-yellow'
+                : 'text-gray-500'
+          }`}
+        >
+          {worm.status.toUpperCase()}
         </span>
       </div>
 
       <div className="mb-2">
         <div className="flex justify-between items-center mb-1">
-          <span className="text-xs text-gray-600">Health</span>
-          <span className="text-xs font-semibold">{Math.round(worm.health)}%</span>
+          <span className="text-xs text-gray-500 pixel-text">HP</span>
+          <span className={`text-xs font-semibold pixel-text ${healthColor}`}>{Math.round(worm.health)}%</span>
         </div>
-        <div className="w-full bg-gray-200 rounded h-2">
+        <div className="w-full bg-gray-800 border border-gray-600 h-2">
           <div
-            className="bg-green-500 h-2 rounded transition-all"
-            style={{ width: `${worm.health}%` }}
+            className={`h-2 transition-all ${healthColor.replace('retro-', 'bg-')}`}
+            style={{ width: `${worm.health}%`, background: healthColor === 'retro-green' ? '#00ff00' : healthColor === 'retro-yellow' ? '#ffff00' : '#ff0000' }}
           />
         </div>
       </div>
 
-      <p className="text-xs text-gray-700 mb-2 truncate">{worm.currentTask}</p>
+      <p className="text-xs text-gray-400 mb-2 truncate pixel-text">&gt; {worm.currentTask}</p>
 
-      <p className="text-xs text-gray-500 mb-3">Uptime: {uptimeStr}</p>
+      <p className="text-xs text-gray-500 mb-3 pixel-text">UP: {uptimeStr}</p>
 
-      <div className="flex gap-2">
+      <div className="flex gap-1">
         <button
           onClick={(e) => {
             e.stopPropagation();
             handleFocus();
           }}
-          className="text-xs bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600"
+          className="text-xs pixel-button bg-blue-600 text-white flex-1"
         >
-          Focus
+          FOCUS
         </button>
         <button
           onClick={(e) => {
             e.stopPropagation();
             handleSpectate();
           }}
-          className="text-xs bg-purple-500 text-white px-2 py-1 rounded hover:bg-purple-600"
+          className="text-xs pixel-button bg-purple-600 text-white flex-1"
         >
-          Spectate
+          VIEW
         </button>
         <button
           onClick={(e) => {
             e.stopPropagation();
-            handleKill();
+            handleKill('SIGTERM');
           }}
-          className="text-xs bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+          className="text-xs pixel-button bg-red-600 text-white flex-1"
         >
-          Kill
+          KILL
         </button>
       </div>
     </div>

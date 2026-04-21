@@ -5,11 +5,13 @@ export class Terrain {
   private width: number;
   private height: number;
   private tileSize = 32;
+  private biome: string = 'terrain-grass';
 
-  constructor(scene: Phaser.Scene, width: number, height: number) {
+  constructor(scene: Phaser.Scene, width: number, height: number, biome: string = 'terrain-grass') {
     this.scene = scene;
     this.width = width;
     this.height = height;
+    this.biome = biome;
     this.groundBodies = scene.physics.add.staticGroup();
     this.generateTerrain();
   }
@@ -24,11 +26,11 @@ export class Terrain {
 
       // Create terrain tiles from this point down
       for (let ty = y; ty < this.height; ty += this.tileSize) {
-        const tile = this.scene.add.image(x, ty, 'terrain-tile');
+        const tile = this.scene.add.image(x, ty, this.biome);
         tile.setOrigin(0, 0);
         tile.setDepth(0);
 
-        const body = this.scene.physics.add.staticImage(x, ty, 'terrain-tile');
+        const body = this.scene.physics.add.staticImage(x, ty, this.biome);
         body.setOrigin(0, 0);
         this.groundBodies.add(body);
         this.terrainTiles.add(tile);

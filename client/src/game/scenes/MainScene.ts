@@ -4,6 +4,8 @@ import { Explosion } from '../objects/Explosion';
 import { Parachute } from '../objects/Parachute';
 import { WeatherSystem } from '../objects/WeatherSystem';
 import { EventBridge } from '../EventBridge';
+import { BiomeManager } from '../utils/BiomeManager';
+import { SoundManager } from '../utils/SoundManager';
 import { useWormStore } from '../../store/useWormStore';
 import { useSystemStore } from '../../store/useSystemStore';
 import type { WormInstance } from '../../types';

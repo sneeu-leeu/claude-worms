@@ -16,28 +16,28 @@ export function Scoreboard() {
   const sortedByMessages = [...worms].sort((a, b) => b.messageCount - a.messageCount);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-gray-800 text-white border-t border-gray-600 p-4">
-      <div className="grid grid-cols-4 gap-8 text-sm max-w-full overflow-x-auto">
-        <div>
-          <div className="text-gray-400 text-xs">Total Messages</div>
-          <div className="text-xl font-bold text-green-400">{totalMessages}</div>
+    <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white border-t-4 border-yellow-400 p-4 pixel-scanlines">
+      <div className="grid grid-cols-4 gap-8 text-xs max-w-full overflow-x-auto pixel-text">
+        <div className="text-center">
+          <div className="text-gray-500 mb-2">MESSAGES</div>
+          <div className="text-2xl font-bold retro-green">{totalMessages}</div>
         </div>
 
-        <div>
-          <div className="text-gray-400 text-xs">Avg Health</div>
-          <div className="text-xl font-bold text-blue-400">{avgHealth}%</div>
+        <div className="text-center">
+          <div className="text-gray-500 mb-2">AVG HEALTH</div>
+          <div className="text-2xl font-bold retro-cyan">{avgHealth}%</div>
         </div>
 
-        <div>
-          <div className="text-gray-400 text-xs">Healthiest Worm</div>
-          <div className="text-lg font-bold text-yellow-400">
+        <div className="text-center">
+          <div className="text-gray-500 mb-2">STRONGEST</div>
+          <div className="text-lg font-bold retro-yellow">
             {sortedByHealth[0]?.cwd.split('/').pop() || 'N/A'}
           </div>
         </div>
 
-        <div>
-          <div className="text-gray-400 text-xs">Most Active</div>
-          <div className="text-lg font-bold text-purple-400">
+        <div className="text-center">
+          <div className="text-gray-500 mb-2">ACTIVE</div>
+          <div className="text-lg font-bold retro-cyan">
             {sortedByMessages[0]?.cwd.split('/').pop() || 'N/A'}
           </div>
         </div>

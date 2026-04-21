@@ -29,15 +29,15 @@ export function WormList() {
   };
 
   return (
-    <div className="w-64 bg-gray-100 border-r border-gray-300 overflow-y-auto">
-      <div className="p-4 border-b border-gray-300">
-        <h2 className="font-bold text-lg mb-4">Worms ({worms.length})</h2>
+    <div className="w-72 bg-gradient-to-b from-gray-950 to-black border-r-4 border-yellow-400 overflow-y-auto pixel-scanlines">
+      <div className="p-4 border-b-2 border-yellow-400 bg-gray-900">
+        <h2 className="font-bold text-sm mb-4 retro-green pixel-text">WORMS: {worms.length}</h2>
 
         <button
           onClick={() => setShowSpawnModal(true)}
-          className="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 font-semibold"
+          className="w-full pixel-button bg-gradient-to-b from-green-400 to-green-600 text-black mb-2"
         >
-          + Spawn
+          &gt; SPAWN
         </button>
       </div>
 

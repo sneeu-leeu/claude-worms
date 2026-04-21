@@ -12,23 +12,32 @@ export function SystemStatus() {
     storm: '⛈️',
   }[weatherState];
 
+  const loadColor =
+    load1 < 2 ? 'retro-green' : load1 < 5 ? 'retro-yellow' : 'retro-red';
+
   return (
-    <div className="h-16 bg-gray-800 text-white flex items-center justify-between px-6 border-b border-gray-700">
-      <div className="flex items-center gap-6">
-        <h1 className="text-2xl font-bold">🪱 Claude Worms</h1>
-        <div className="text-sm">
-          <span className="font-semibold">{wormCount}</span> worms active
+    <div className="h-20 bg-gradient-to-r from-gray-900 via-black to-gray-900 text-white flex items-center justify-between px-8 border-b-4 border-yellow-400 pixel-scanlines">
+      <div className="flex items-center gap-8">
+        <h1 className="text-xl font-bold pixel-glow">🪱 CLAUDE WORMS</h1>
+        <div className="pixel-text text-xs">
+          <div className="flex items-center gap-2">
+            <span className="pixel-status active"></span>
+            <span className={`${wormCount > 0 ? 'retro-green' : 'retro-red'}`}>{wormCount} WORMS</span>
+          </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-6 text-sm">
-        <div>
-          <span className="text-gray-400">Load:</span>
-          <span className="font-semibold ml-2">{load1.toFixed(2)}</span>
+      <div className="flex items-center gap-12 text-xs pixel-text">
+        <div className="text-center">
+          <div className="text-gray-500 mb-1">LOAD AVG</div>
+          <div className={loadColor}>{load1.toFixed(2)}</div>
         </div>
-        <div>
-          <span className="text-xl">{weatherIcon}</span>
-          <span className="text-gray-400 ml-2 capitalize">{weatherState}</span>
+        <div className="text-center">
+          <div className="text-gray-500 mb-1">WEATHER</div>
+          <div className="flex items-center justify-center gap-2">
+            <span className="text-xl">{weatherIcon}</span>
+            <span className="retro-cyan uppercase">{weatherState}</span>
+          </div>
         </div>
       </div>
     </div>

@@ -47,40 +47,40 @@ export function WeaponMenu({ pid, x, y, onClose }: WeaponMenuProps) {
       onClick={onClose}
     >
       <div
-        className="bg-gray-900 border-2 border-yellow-400 rounded shadow-lg p-2 min-w-max"
+        className="bg-gray-950 border-4 border-yellow-400 shadow-lg p-3 min-w-max pixel-border-thick pixel-scanlines"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="text-xs text-yellow-300 font-bold mb-2">WEAPON SELECT</div>
+        <div className="text-xs retro-yellow font-bold mb-3 pixel-text">= WEAPON SELECT =</div>
 
         {selectedWeapon ? (
           <div>
-            <div className="text-xl mb-2 text-center">{selectedWeapon.emoji}</div>
-            <div className="text-xs text-white mb-2">{selectedWeapon.name}</div>
-            <p className="text-xs text-gray-400 mb-3">{selectedWeapon.flavor}</p>
+            <div className="text-3xl mb-3 text-center">{selectedWeapon.emoji}</div>
+            <div className="text-xs retro-green mb-2 pixel-text">{selectedWeapon.name.toUpperCase()}</div>
+            <p className="text-xs text-gray-400 mb-4 pixel-small">{selectedWeapon.flavor}</p>
             <div className="flex gap-2">
               <button
                 onClick={() => handleKill(selectedWeapon)}
-                className="bg-red-600 text-white px-2 py-1 text-xs rounded hover:bg-red-700"
+                className="pixel-button bg-red-600 text-white px-3 py-1 text-xs flex-1"
               >
-                Fire
+                FIRE!
               </button>
               <button
                 onClick={() => setSelectedWeapon(null)}
-                className="bg-gray-600 text-white px-2 py-1 text-xs rounded hover:bg-gray-700"
+                className="pixel-button bg-gray-600 text-white px-3 py-1 text-xs flex-1"
               >
-                Back
+                BACK
               </button>
             </div>
           </div>
         ) : (
-          <div className="space-y-1">
+          <div className="space-y-2">
             {weapons.map((weapon) => (
               <button
                 key={weapon.name}
                 onClick={() => setSelectedWeapon(weapon)}
-                className="w-full text-left text-xs text-white hover:bg-gray-700 px-2 py-1 rounded transition"
+                className="w-full text-left text-xs retro-cyan hover:retro-yellow px-2 py-1 transition pixel-text border border-current hover:border-yellow-400"
               >
-                {weapon.emoji} {weapon.name}
+                {weapon.emoji} {weapon.name.toUpperCase()}
               </button>
             ))}
           </div>

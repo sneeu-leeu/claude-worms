@@ -1,3 +1,6 @@
+import { PixelArtGenerator } from '../utils/PixelArtGenerator';
+import { BiomeManager } from '../utils/BiomeManager';
+
 export class PreloadScene extends Phaser.Scene {
   constructor() {
     super('PreloadScene');
@@ -11,24 +14,76 @@ export class PreloadScene extends Phaser.Scene {
     progressBox.fillStyle(0x222222, 0.8);
     progressBox.fillRect(width / 4, height / 2 - 30, width / 2, 50);
 
+    const progressText = this.add.text(width / 2, height / 2, 'Loading...', {
+      fontSize: '16px',
+      color: '#ffffff',
+    });
+    progressText.setOrigin(0.5);
+
     this.load.on('progress', (value: number) => {
       progressBar.clear();
       progressBar.fillStyle(0x00ff00, 1);
       progressBar.fillRect(width / 4 + 10, height / 2 - 20, (width / 2 - 20) * value, 30);
+      progressText.setText(`Loading: ${Math.round(value * 100)}%`);
     });
 
-    // For now, we'll use placeholder assets
-    // In Phase 5, replace these with actual spritesheets
     this.load.setPath('assets');
-
-    // Placeholder: create simple graphics instead of loading images
-    this.textures.generateKey('worm-sprite', 8, 8, 0x00ff00);
-    this.textures.generateKey('terrain-tile', 32, 32, 0x8b7355);
-    this.textures.generateKey('explosion', 16, 16, 0xff6600);
   }
 
   create(): void {
+    // Generate all pixel art assets
+    this.generateAssets();
     this.scene.start('MainScene');
+  }
+
+  private generateAssets(): void {
+    // Generate terrain biomes
+    const biomes: Array<'grass' | 'sand' | 'lava' | 'ice' | 'space'> = [
+      'grass',
+      'sand',
+      'lava',
+      'ice',
+      'space',
+    ];
+    biomes.forEach((biome) => {
+      PixelArtGenerator.generateTerrainTile(this, biome);
+    });
+
+    // Generate worm sprites with different colors
+    const wormColors = [0xff6b6b, 0x4ecdc4, 0xffe66d, 0x95e1d3, 0xf38181, 0xaa96da];
+    wormColors.forEach((color) => {
+      const key = `worm-${color.toString(16)}`;
+      const canvas = document.createElement('canvas');
+      canvas.width = 16;
+      canvas.height = 16;
+      const ctx = canvas.getContext('2d')!;
+
+      const r = (color >> 16) & 255;
+      const g = (color >> 8) & 255;
+      const b = color & 255;
+
+      ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
+      ctx.fillRect(2, 6, 3, 3);
+      ctx.fillRect(5, 5, 3, 5);
+      ctx.fillRect(8, 6, 3, 3);
+      ctx.fillRect(11, 7, 3, 2);
+
+      ctx.fillStyle = 'white';
+      ctx.fillRect(3, 7, 1, 1);
+      ctx.fillRect(4, 7, 1, 1);
+
+      const texture = this.textures.createCanvas(key, canvas.width, canvas.height);
+      texture.getSourceImage().getContext('2d')?.drawImage(canvas, 0, 0);
+    });
+
+    // Fallback sprite
+    this.textures.generateKey('worm-sprite', 16, 16, 0x00ff00);
+
+    // Generate explosion
+    PixelArtGenerator.generateExplosionParticle(this);
+
+    // Generate UI elements
+    PixelArtGenerator.generateHealthBarBackground(this);
   }
 }
 

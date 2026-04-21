@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.pixel-font,
+.pixel-text {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 12px;
+  line-height: 1.2;
+  letter-spacing: 0.05em;
+}
+
+.pixel-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 24px;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.1em;
+}
+
+.pixel-heading {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 16px;
+  letter-spacing: 0.08em;
+}
+
+.pixel-small {
+  font-family: 'Courier New', monospace;
+  font-size: 11px;
+  font-weight: bold;
+  letter-spacing: 0.02em;
+}
+
+/* Pixel art style borders */
+.pixel-border {
+  border: 2px solid;
+  border-image: linear-gradient(135deg, #ffffff 0%, #808080 50%, #000000 100%) 1;
+  box-shadow: inset 1px 1px 0 rgba(255, 255, 255, 0.5), inset -1px -1px 0 rgba(0, 0, 0, 0.5);
+}
+
+.pixel-border-thick {
+  border: 4px solid;
+  border-image: linear-gradient(135deg, #ffffff 0%, #808080 50%, #000000 100%) 1;
+  box-shadow: inset 2px 2px 0 rgba(255, 255, 255, 0.5), inset -2px -2px 0 rgba(0, 0, 0, 0.5),
+              0 0 10px rgba(255, 255, 0, 0.3);
+}
+
+/* Glowing text effect */
+.pixel-glow {
+  text-shadow:
+    0 0 10px rgba(255, 255, 0, 0.8),
+    0 0 20px rgba(255, 200, 0, 0.6),
+    0 0 30px rgba(255, 100, 0, 0.4);
+}
+
+/* Scanline effect */
+@keyframes scanlines {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 4px;
+  }
+}
+
+.pixel-scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  animation: scanlines 8s linear infinite;
+}
+
+/* Button styles */
+.pixel-button {
+  font-family: 'Press Start 2P', monospace;
+  padding: 0.5em 1em;
+  border: 2px solid;
+  border-color: #ffffff #808080 #808080 #ffffff;
+  background: linear-gradient(135deg, #dfdfdf 0%, #808080 100%);
+  cursor: pointer;
+  font-size: 11px;
+  box-shadow:
+    inset 1px 1px 0 rgba(255, 255, 255, 0.5),
+    inset -1px -1px 0 rgba(0, 0, 0, 0.5),
+    2px 2px 0 rgba(0, 0, 0, 0.3);
+  transition: all 0.1s;
+}
+
+.pixel-button:hover {
+  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+}
+
+.pixel-button:active {
+  box-shadow:
+    inset 2px 2px 0 rgba(0, 0, 0, 0.5),
+    inset -1px -1px 0 rgba(255, 255, 255, 0.5);
+  transform: translate(1px, 1px);
+}
+
+/* Status indicators */
+.pixel-status {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border: 1px solid #333;
+  margin-right: 0.5em;
+  animation: blink 1s infinite;
+}
+
+.pixel-status.active {
+  background: #00ff00;
+}
+
+.pixel-status.inactive {
+  background: #ff0000;
+}
+
+.pixel-status.warning {
+  background: #ffff00;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* Retro colors */
+.retro-green {
+  color: #00ff00;
+  text-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.retro-red {
+  color: #ff0000;
+  text-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.retro-yellow {
+  color: #ffff00;
+  text-shadow: 0 0 10px rgba(255, 255, 0, 0.5);
+}
+
+.retro-cyan {
+  color: #00ffff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.retro-magenta {
+  color: #ff00ff;
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.5);
+}
