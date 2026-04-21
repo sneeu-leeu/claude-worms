@@ -23,12 +23,12 @@ export function WormCard({ worm }: WormCardProps) {
     waiting: 'bg-blue-500',
   }[worm.status];
 
-  const handleKill = async () => {
+  const handleKill = async (signal: 'SIGTERM' | 'SIGKILL' | 'SIGHUP' = 'SIGTERM') => {
     try {
       const response = await fetch(`/api/instances/${worm.pid}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ signal: 'SIGTERM' }),
+        body: JSON.stringify({ signal }),
       });
 
       if (response.ok) {
@@ -37,6 +37,11 @@ export function WormCard({ worm }: WormCardProps) {
     } catch (err) {
       console.error('Error killing worm:', err);
     }
+  };
+
+  const handleRightClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
   };
 
   const handleSpectate = () => {

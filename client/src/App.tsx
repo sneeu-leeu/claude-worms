@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { initializeSocket } from './socket/SocketClient';
 import { useSocketEvents } from './socket/useSocketEvents';
 import { useWormStore } from './store/useWormStore';
@@ -6,9 +6,14 @@ import { SystemStatus } from './components/SystemStatus';
 import { WormList } from './components/WormList';
 import { GameContainer } from './components/GameContainer';
 import { SpectatePanel } from './components/SpectatePanel';
+import { WeaponMenu } from './components/WeaponMenu';
+import { Scoreboard } from './components/Scoreboard';
 
 function App() {
   useSocketEvents();
+  const [weaponMenu, setWeaponMenu] = useState<{ pid: number; x: number; y: number } | null>(
+    null,
+  );
 
   useEffect(() => {
     // Initialize socket connection
@@ -41,6 +46,17 @@ function App() {
         <GameContainer />
         <SpectatePanel />
       </div>
+
+      <Scoreboard />
+
+      {weaponMenu && (
+        <WeaponMenu
+          pid={weaponMenu.pid}
+          x={weaponMenu.x}
+          y={weaponMenu.y}
+          onClose={() => setWeaponMenu(null)}
+        />
+      )}
     </div>
   );
 }

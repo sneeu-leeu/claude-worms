@@ -30,6 +30,9 @@ const processMonitor = new ProcessMonitor();
 const transcriptWatcher = new TranscriptWatcher();
 const socketServer = new SocketServer(io);
 
+// Connect socketServer to instances
+socketServer.setInstancesGetter(() => sessionWatcher.getAllInstances());
+
 // Setup watcher callbacks
 sessionWatcher.start(
   (instance) => {

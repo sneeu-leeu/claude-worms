@@ -24,6 +24,9 @@ export class Worm extends Phaser.Physics.Arcade.Sprite {
     this.setDrag(0.5);
     this.setFrictionAir(0.02);
 
+    // Store pid as data
+    this.setData('pid', worm.pid);
+
     // Color based on worm name
     this.setTint(this.getColorFromName(worm.sessionId));
 
