@@ -4,12 +4,20 @@ A Worms-game-themed dashboard for managing Claude Code terminal instances. Visua
 
 ## Features
 
-- **Real-time Worm Tracking** - Watch Claude Code instances as animated worms
-- **Instance Management** - Spawn new instances, kill them with a weapon menu
-- **Live Monitoring** - View health (based on activity), current task, and uptime
-- **Spectate Mode** - Watch a worm's terminal output live
-- **Weather System** - System load indicator with animated weather effects
-- **Game Mechanics** - Phaser 3 canvas with physics, explosions, and terrain destruction
+### Game Mechanics
+- **🪱 Real-time Worm Tracking** - Watch Claude Code instances as animated worms on destructible terrain
+- **💥 Explosions & Knockback** - Destroy terrain and apply forces to nearby worms
+- **🪂 Parachute Drops** - Spawn animation for new instances
+- **🌧️ Dynamic Weather** - Rain, lightning, and atmospheric effects tied to system load
+- **💬 Chat Bubbles** - Live current task display above each worm
+- **❤️ Health System** - Color-coded health bars (green > red) based on activity
+
+### Management
+- **🔫 Weapon Menu** - Bazooka (SIGTERM), Grenade (SIGHUP), Dynamite (SIGKILL)
+- **📺 Spectate Mode** - View worm's transcript in real-time
+- **🎮 Instance Control** - Spawn, focus, kill with iTerm2 integration
+- **📊 Live Scoreboard** - Total messages, avg health, strongest/most active worms
+- **🎨 5 Biomes** - Grass, Sand, Lava, Ice, Space (different physics each)
 
 ## Architecture
 
@@ -83,11 +91,36 @@ npm start
 
 ## Development Roadmap
 
-- [x] Phase 1: Backend core (session watching, iTerm integration, Socket.io)
-- [x] Phase 2: Frontend state layer (Zustand stores, socket events)
-- [ ] Phase 3: Phaser canvas (terrain, worms, physics)
-- [ ] Phase 4: Game features (explosions, parachutes, spectate mode)
-- [ ] Phase 5: Polish (sprites, sounds, scoreboard)
+- [x] **Phase 1**: Backend core (session watching, iTerm integration, Socket.io)
+- [x] **Phase 2**: Frontend state layer (Zustand stores, socket events)
+- [x] **Phase 3**: Phaser canvas (terrain, worms, physics)
+- [x] **Phase 4**: Game features (explosions, parachutes, spectate mode)
+- [x] **Phase 5**: Polish (pixel art, retro fonts, biomes, themes)
+
+## Visual Polish
+
+- **Pixel Art**: Canvas-generated worm sprites with color variations
+- **Retro Theme**: CRT scanlines, Press Start 2P pixel font, terminal green text
+- **Biome System**: 5 different terrain biomes with unique physics parameters
+- **Health Colors**: Green (healthy) → Yellow (hurt) → Red (critical)
+- **Status Indicators**: Blinking pixel lights showing worm state
+- **Sound Manager**: Infrastructure ready for sound effects (placeholder)
+
+## How to Play
+
+1. **Spawn Worms** - Click "+ SPAWN" button, enter project path
+2. **Monitor Health** - Health bars drain when idle, restore on activity
+3. **Select Worm** - Click a worm in the list or on the canvas
+4. **Kill Worms** - Click "KILL" button or right-click in canvas for weapon menu
+5. **Spectate** - Click "VIEW" to see live transcript of worm's work
+6. **Check Stats** - Scoreboard at bottom shows game-wide metrics
+
+### Game Mechanics
+- **Gravity** - Worms fall and interact with terrain (varies by biome)
+- **Terrain Destruction** - Explosions destroy tiles in radius
+- **Knockback** - Nearby worms get pushed by explosions
+- **Physics** - Each biome has different friction, bounce, gravity
+- **Weather** - System load affects visual atmosphere (clear → cloudy → storm)
 
 ## API Endpoints
 
