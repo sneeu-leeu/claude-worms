@@ -5,6 +5,7 @@ import cors from 'cors';
 import { config } from './config.js';
 import { SessionWatcher } from './watcher/SessionWatcher.js';
 import { ProcessMonitor } from './watcher/ProcessMonitor.js';
+import { TranscriptWatcher } from './watcher/TranscriptWatcher.js';
 import { ItermBridge } from './discovery/ItermBridge.js';
 import { SocketServer } from './socket/SocketServer.js';
 import { createInstanceRoutes } from './routes/instances.js';
@@ -26,6 +27,7 @@ app.use(express.json());
 // Initialize watchers and managers
 const sessionWatcher = new SessionWatcher();
 const processMonitor = new ProcessMonitor();
+const transcriptWatcher = new TranscriptWatcher();
 const socketServer = new SocketServer(io);
 
 // Setup watcher callbacks
@@ -45,6 +47,20 @@ processMonitor.start(
   () => sessionWatcher.getAllInstances(),
   (pid, sessionId) => {
     socketServer.emit('worm:died', { pid, sessionId });
+  },
+);
+
+// Setup transcript watcher
+transcriptWatcher.start(
+  () => sessionWatcher.getAllInstances(),
+  (update) => {
+    socketServer.emit('worm:activity', {
+      pid: update.pid || 0,
+      lastOutput: update.lastOutput || '',
+      health: update.health || 0,
+      status: update.status || 'waiting',
+      currentTask: update.currentTask || 'Unknown',
+    });
   },
 );
 
@@ -93,6 +109,7 @@ process.on('SIGINT', () => {
   console.log('Shutting down gracefully...');
   sessionWatcher.stop();
   processMonitor.stop();
+  transcriptWatcher.stop();
   socketServer.stop();
   process.exit(0);
 });

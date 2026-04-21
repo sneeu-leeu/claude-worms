@@ -1,23 +1,63 @@
 import React, { useEffect } from 'react';
+import { initializePhaserGame, destroyPhaserGame } from '../game/PhaserGame';
+import { EventBridge } from '../game/EventBridge';
+import { useWormStore } from '../store/useWormStore';
 
 export function GameContainer() {
   useEffect(() => {
-    // Phaser will be initialized here in Phase 3
     const container = document.getElementById('game-container');
     if (!container) return;
 
-    // Placeholder for now - will contain Phaser game initialization
-    container.innerHTML = '<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #999; font-size: 18px;">Game Canvas (Phaser 3 - coming soon)</div>';
+    // Initialize Phaser game
+    try {
+      const game = initializePhaserGame(container);
 
-    return () => {
-      // Cleanup will happen when Phaser is integrated
-    };
+      // Bridge React store updates to Phaser via EventBridge
+      const handleWormAdded = (worm: any) => {
+        EventBridge.emit('worm:spawned', worm);
+      };
+
+      const handleWormRemoved = (pid: number) => {
+        EventBridge.emit('worm:died', { pid });
+      };
+
+      // Subscribe to store changes
+      const unsubscribeAdd = useWormStore.subscribe(
+        (state) => state.worms,
+        (newWorms, oldWorms) => {
+          // Find newly added worms
+          for (const [pid, worm] of newWorms) {
+            if (!oldWorms.has(pid)) {
+              handleWormAdded(worm);
+            } else {
+              // Update existing worm
+              EventBridge.emit('worm:update', worm);
+            }
+          }
+
+          // Find removed worms
+          for (const [pid] of oldWorms) {
+            if (!newWorms.has(pid)) {
+              handleWormRemoved(pid);
+            }
+          }
+        },
+      );
+
+      return () => {
+        unsubscribeAdd();
+        destroyPhaserGame();
+      };
+    } catch (err) {
+      console.error('Error initializing Phaser:', err);
+    }
   }, []);
 
   return (
     <div
       id="game-container"
       className="flex-1 bg-gradient-to-b from-blue-200 to-blue-100"
+      style={{ position: 'relative' }}
     />
   );
 }
